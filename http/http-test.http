@@ -13,7 +13,7 @@ Content-Type: application/json
 > {% client.global.set("auth-token", response.body.access_token);  %}
 
 ### GET PRODUCT
-GET http://localhost:8083/api/v1/product/1
+GET http://localhost:9090/api/v1/product/1
 Authorization: Bearer {{auth-token}}
 
 ### Register User2
