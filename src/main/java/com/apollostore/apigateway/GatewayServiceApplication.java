@@ -1,4 +1,4 @@
-package com.microservice.apigateway;
+package com.apollostore.apigateway;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import org.springframework.boot.SpringApplication;

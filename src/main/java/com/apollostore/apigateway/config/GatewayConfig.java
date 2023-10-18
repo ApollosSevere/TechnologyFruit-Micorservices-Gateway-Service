@@ -1,7 +1,7 @@
-package com.microservice.apigateway.config;
+package com.apollostore.apigateway.config;
 
-import com.microservice.apigateway.filters.AuthenticationPrefilter;
-import com.microservice.apigateway.filters.AuthorizationFilter;
+import com.apollostore.apigateway.filters.AuthenticationPrefilter;
+import com.apollostore.apigateway.filters.AuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;

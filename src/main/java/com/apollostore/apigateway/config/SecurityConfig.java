@@ -1,4 +1,4 @@
-package com.microservice.apigateway.config;
+package com.apollostore.apigateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

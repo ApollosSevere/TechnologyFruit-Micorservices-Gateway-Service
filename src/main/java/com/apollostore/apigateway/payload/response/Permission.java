@@ -1,4 +1,4 @@
-package com.microservice.apigateway.payload.response;
+package com.apollostore.apigateway.payload.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

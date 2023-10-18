@@ -1,4 +1,4 @@
-package com.microservice.apigateway.payload.response;
+package com.apollostore.apigateway.payload.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.microservice.apigateway.payload.response.Permission.*;
+import static com.apollostore.apigateway.payload.response.Permission.*;
 
 //Might not need this and Permission here!
 @RequiredArgsConstructor

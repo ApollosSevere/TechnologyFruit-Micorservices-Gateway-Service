@@ -1,15 +1,15 @@
-package com.microservice.apigateway.exception;
+package com.apollostore.apigateway.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
 import java.io.Serial;
 
-public class JwtTokenMissingException extends AuthenticationException {
+public class JwtTokenMalformedException extends AuthenticationException {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public JwtTokenMissingException(String msg) {
+    public JwtTokenMalformedException(String msg) {
         super(msg);
     }
 

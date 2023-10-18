@@ -1,8 +1,8 @@
-package com.microservice.apigateway.filters;
+package com.apollostore.apigateway.filters;
 
 
 
-import com.microservice.apigateway.payload.response.ConnValidationResponse;
+import com.apollostore.apigateway.payload.response.ConnValidationResponse;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.microservice.apigateway.payload.response.Authorities;
+import com.apollostore.apigateway.payload.response.Authorities;
 import java.util.List;
 import java.util.function.Predicate;
 

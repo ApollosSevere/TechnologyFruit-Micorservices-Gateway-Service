@@ -1,8 +1,8 @@
-package com.microservice.apigateway.filters;
+package com.apollostore.apigateway.filters;
 
-import com.microservice.apigateway.exception.JwtTokenMalformedException;
-import com.microservice.apigateway.exception.JwtTokenMissingException;
-import com.microservice.apigateway.util.JwtUtils;
+import com.apollostore.apigateway.exception.JwtTokenMalformedException;
+import com.apollostore.apigateway.exception.JwtTokenMissingException;
+import com.apollostore.apigateway.util.JwtUtils;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
