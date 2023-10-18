@@ -1,0 +1,91 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: API-GATEWAY
+  config:
+    import: optional:configserver:http://${INTERNAL_URL:localhost}:9296
+  cloud:
+    gateway:
+      routes:
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1//order/**
+        #          filters:
+        #            - name: CircuitBreaker
+        #              args:
+        #                name: ORDER-SERVICE
+        #                fallbackuri: forward:/orderServiceFallBack
+        #            - name: RequestRateLimiter
+        #              args:
+        #                redis-rate-limiter.replenishRate: 1 # how many requests per second a user is allowed to send without any dropped requests (1000 requests per minute)
+        #                redis-rate-limiter.burstCapacity: 1 # maximum number of requests a user is allowed to do in a single second (500 requests per second)
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/payment/**
+        #          filters:
+        #            - name: CircuitBreaker
+        #              args:
+        #                name: PAYMENT-SERVICE
+        #                fallbackuri: forward:/paymentServiceFallBack
+        #            - name: RequestRateLimiter
+        #              args:
+        #                redis-rate-limiter.replenishRate: 1
+        #                redis-rate-limiter.burstCapacity: 1
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/v1/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PRODUCT-SERVICE
+                fallbackuri: forward:/productServiceFallBack
+        #            - name: RequestRateLimiter
+        #              args:
+        #                redis-rate-limiter.replenishRate: 1
+        #                redis-rate-limiter.burstCapacity: 1
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTH-SERVICE
+                fallbackuri: forward:/productServiceFallBack
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 1
+#                redis-rate-limiter.burstCapacity: 1
+
+#logging:
+#  level:
+#    org.springframework: DEBUG
+
+#jwt:
+#  secret: mySecretKey
+#  expireMs: 120000
+#  refrEshexpireMs: 120000
+
+
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  internal_url: http://${INTERNAL_URL:localhost}:8086
+  expiration: 86400000 # a day
+  refresh-token:
+    expiration: 604800000 # 7 days
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
