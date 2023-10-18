@@ -21,6 +21,7 @@ public class GatewayConfig {
 //                .route("PAYMENT-SERVICE", r -> r.path("/api/v1/payment/**").filters(f -> f.filter(filter)).uri("lb://PAYMENT-SERVICE"))
 //                .route("ORDER-SERVICE", r -> r.path("/api/v1/order/**").filters(f -> f.filter(filter)).uri("lb://ORDER-SERVICE")).build();
 //    }
+    //
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder, AuthenticationPrefilter authFilter ) {
