@@ -5,7 +5,7 @@ spring:
   application:
     name: API-GATEWAY
   config:
-    import: optional:configserver:http://${INTERNAL_URL:localhost}:9296
+    import: configserver:${CONFIG_SERVER_ADDRESS:http://localhost:9296}
   cloud:
     gateway:
       routes:
@@ -75,7 +75,7 @@ spring:
 
 jwt:
   secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  internal_url: http://${INTERNAL_URL:localhost}:8086
+  internal_url: ${AUTH_SERVICE_URL:http://localhost:8086} # How we gonna deal with k8s?
   expiration: 86400000 # a day
   refresh-token:
     expiration: 604800000 # 7 days
