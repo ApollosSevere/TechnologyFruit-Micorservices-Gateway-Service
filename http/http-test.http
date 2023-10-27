@@ -1,5 +1,5 @@
 ### Register User 1
-POST http://localhost:9090/api/v1/auth/register
+GET http://127.0.0.1:55176/api/v1/auth/register
 Content-Type: application/json
 
 {
@@ -13,11 +13,11 @@ Content-Type: application/json
 > {% client.global.set("auth-token", response.body.access_token);  %}
 
 ### GET PRODUCT
-GET http://localhost:9090/api/v1/product/1
+GET http://127.0.0.1:55176/api/v1/product/2
 Authorization: Bearer {{auth-token}}
 
 ### Register User 2
-POST http://localhost:9090/api/v1/auth/register
+POST http://127.0.0.1:55176/api/v1/auth/register
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 > {% client.global.set("auth-token", response.body.access_token);  %}
 
 ### Register User 3
-POST http://localhost:9090/api/v1/auth/register
+POST http://127.0.0.1:55176/api/v1/auth/register
 Content-Type: application/json
 
 {
@@ -46,7 +46,7 @@ Content-Type: application/json
 
 
 ### Query the Demo endpoint
-GET http://localhost:9090/api/v1/auth/demo-controller
+GET http://127.0.0.1:50780/api/v1/auth/demo-controller
 Authorization: Bearer {{auth-token}}
 
 
