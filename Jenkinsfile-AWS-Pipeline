@@ -25,15 +25,13 @@ pipeline{
             when { expression {  params.action == 'create' } }
 
             steps{
-                script{
-                    def GithubCredentialsId = 'github'
 
-                    gitCheckout(
-                        branch: "main",
-                        url: "https://github.com/ApollosSevere/ApolloStore-Micorservice-Gateway-Service",
+                gitCheckout(
+                    branch: "main",
+                    url: "https://github.com/ApollosSevere/ApolloStore-Micorservice-Gateway-Service",
 
-                    )
-                }
+                )
+
             }
         }
          stage('Unit Test maven'){
