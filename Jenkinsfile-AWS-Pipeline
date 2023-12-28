@@ -31,7 +31,7 @@ pipeline{
                     gitCheckout(
                         branch: "main",
                         url: "https://github.com/ApollosSevere/ApolloStore-Micorservice-Gateway-Service",
-                        githubCredentials: "$GITHUB_CREDENTIALS"
+
                     )
                 }
             }
