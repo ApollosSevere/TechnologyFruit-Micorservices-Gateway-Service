@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service-app
+spec:
+  selector:
+    matchLabels:
+      app: gateway-service-app
+  template:
+    metadata:
+      labels:
+        app: gateway-service-app
+    spec:
+      containers:
+        - name: gateway-service-app
+          image: 637223683609.dkr.ecr.us-east-1.amazonaws.com/lms-microservices-api-gateway-linux:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9090
+          env:
+            #          - name: EUREKA_SERVER_ADDRESS
+            #            valueFrom:
+            #              configMapKeyRef:
+            #                key: eureka_service_address
+            #                name: eureka-cm
+
+            - name: ENABLE_EUREKA
+              valueFrom:
+                configMapKeyRef:
+                  name: enable-eureka
+                  key: enable_eureka_value
+
+            - name: CONFIG_SERVER_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  key: config_server_url
+                  name: config-server-cm
+
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: auth-service-url
+                  name: auth-service-url-cm
+
+            - name: COURSE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: course-service-url
+                  name: course-service-url-cm
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: gateway-service-app
+  ports:
+    - port: 80
+      targetPort: 9090
+

@@ -21,8 +21,8 @@ import java.util.function.Predicate;
 @Slf4j
 public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<AuthenticationPrefilter.Config> {
 //dd
-    @Value("${jwt.internal_url}")
-    private String internal_url;
+    @Value("${jwt.auth_service_url}")
+    private String auth_service_url;
 
     private final WebClient.Builder webClientBuilder;
 
@@ -56,7 +56,7 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
                 String bearerToken = authorization.replace("Bearer ", "");
                 log.info("Bearer Token: "+ bearerToken);
 
-                return webClientBuilder.baseUrl(internal_url).build().get()
+                return webClientBuilder.baseUrl(auth_service_url).build().get()
                         .uri("/api/v1/auth/validateToken")
                         .header("Authorization", bearerToken)
                         .retrieve().bodyToMono(ConnValidationResponse.class)
@@ -87,6 +87,9 @@ public class AuthenticationPrefilter extends AbstractGatewayFilterFactory<Authen
         final List<String> apiEndpoints = List.of(
 //                    "/api/v1/auth/**",
                 "/api/v1/auth/register",
+                "/api/v1/auth/login",
+                "/api/v1/auth/logout",
+                "/api/v1/auth/validateToken",
                 "/api/v1/auth/authenticate",
                 "/api/v1/auth/refresh-token",
                 "/v2/api-docs",

@@ -15,8 +15,15 @@ public class GatewayConfig {
 
     private final AuthorizationFilter filter;
 
-    @Value("${jwt.internal_url}")
-    private String internal_url;
+
+    @Value("${jwt.auth_service_url}")
+    private String auth_service_url;
+
+    @Value("${jwt.course_service_url}")
+    private String course_service_url;
+
+    @Value("${jwt.product_service_url}")
+    private String product_service_url;
 
 //    @Bean
 //    public RouteLocator routes(RouteLocatorBuilder builder) {
@@ -29,16 +36,21 @@ public class GatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder, AuthenticationPrefilter authFilter ) {
-        return builder.routes().route(internal_url, r -> r.path("/api/v1/auth/**").filters(f -> f.filter(authFilter.apply(
-                        new AuthenticationPrefilter.Config()))).uri(internal_url))
+        return builder.routes().route(auth_service_url, r -> r.path("/api/v1/auth/**").filters(f -> f.filter(authFilter.apply(
+                        new AuthenticationPrefilter.Config()))).uri(auth_service_url))
 
-                .route("http://product-service-svc", r -> r.path("/api/v1/product/**").filters(f -> f.filter(authFilter.apply(
-                        new AuthenticationPrefilter.Config()))).uri("http://product-service-svc")) // <-- Gotta change for each jawn
+                .route(course_service_url, r -> r.path("/api/v1/course/**").filters(f -> f.filter(authFilter.apply(
+                        new AuthenticationPrefilter.Config()))).uri(course_service_url)) // <-- Gotta change for each jawn
 
-                .route(internal_url, r -> r.path("/api/v1/payment/**").filters(f -> f.filter(authFilter.apply(
-                        new AuthenticationPrefilter.Config()))).uri("lb://PAYMENT-SERVICE"))
+                .route(product_service_url, r -> r.path("/api/v1/product/**").filters(f -> f.filter(authFilter.apply(
+                        new AuthenticationPrefilter.Config()))).uri(product_service_url))// <-- Gotta change for each jawn
 
-                .route(internal_url, r -> r.path("/api/v1/order/**").filters(f -> f.filter(authFilter.apply(
-                        new AuthenticationPrefilter.Config()))).uri("lb://ORDER-SERVICE")).build();
+//                .route(internal_url, r -> r.path("/api/v1/payment/**").filters(f -> f.filter(authFilter.apply(
+//                        new AuthenticationPrefilter.Config()))).uri("lb://PAYMENT-SERVICE"))
+//
+//                .route(internal_url, r -> r.path("/api/v1/order/**").filters(f -> f.filter(authFilter.apply(
+//                        new AuthenticationPrefilter.Config()))).uri("lb://ORDER-SERVICE"))
+
+                .build();
     }
 }

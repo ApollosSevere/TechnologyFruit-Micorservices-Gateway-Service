@@ -1,5 +1,5 @@
 ### Register User 1
-GET http://127.0.0.1:55176/api/v1/auth/register
+POST http://localhost:53211/api/v1/auth/register
 Content-Type: application/json
 
 {
@@ -7,13 +7,17 @@ Content-Type: application/json
   "lastname": "BoFuaDli",
   "email":  "alibou21@mail.com",
   "password": "password",
-  "role":  "ADMIN"
+  "role":  "TEACHER"
 }
 
 > {% client.global.set("auth-token", response.body.access_token);  %}
 
 ### GET PRODUCT
 GET http://127.0.0.1:55176/api/v1/product/2
+Authorization: Bearer {{auth-token}}
+
+### GET COURSES
+GET http://localhost:9090/api/v1/course
 Authorization: Bearer {{auth-token}}
 
 ### Register User 2

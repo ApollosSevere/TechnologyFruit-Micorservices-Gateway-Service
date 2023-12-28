@@ -21,17 +21,21 @@ import java.util.function.Predicate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthorizationFilter implements GlobalFilter { // <-- Might have to change this to GlobalFilter, so it can run everywhere!
+public class AuthorizationFilter implements GlobalFilter {
 
     private final JwtUtils jwtUtils;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println("ONNN ATHORIZINGGGGGGGG ------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        log.info("JwtAuthenticationFilter | filter is working");
+        log.info("JwtAuthenticationFilter | filter is working/Authorizing");
+
         ServerHttpRequest request = exchange.getRequest();
-//      TODO:  Figure out how to get below in Centralized place
-        final List<String> apiEndpoints = List.of("/api/v1/auth/register", "/login","/refreshtoken");
+
+        final List<String> apiEndpoints = List.of(
+                "/api/v1/auth/register",
+                "/api/v1/auth/login",
+                "/api/v1/auth/logout",
+                "/api/v1/auth/refreshtoken");
 
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
@@ -39,12 +43,11 @@ public class AuthorizationFilter implements GlobalFilter { // <-- Might have to 
         log.info("JwtAuthenticationFilter | filter | isApiSecured.test(request) : " + isApiSecured.test(request));
 
         if (isApiSecured.test(request)) {
-            /* Below here is important because if there is no Authrization key in the headers
-            * then obiously the user never logged in the system in the first place! */
+
             if (!request.getHeaders().containsKey("Authorization")) {
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
-                System.out.println("ONNN MEEEEE ------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
                 return response.setComplete();
             }
 
@@ -56,9 +59,8 @@ public class AuthorizationFilter implements GlobalFilter { // <-- Might have to 
             try {
                 jwtUtils.validateJwtToken(token);
             } catch (ExpiredJwtException e) {
-                /* Hmmm --> Maybe the freaking token itself has info on weather
-                * the token is expired or not!! */
                 log.info("JwtAuthenticationFilter | filter | ExpiredJwtException | error : " + e.getMessage());
+
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
 
@@ -69,13 +71,11 @@ public class AuthorizationFilter implements GlobalFilter { // <-- Might have to 
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.BAD_REQUEST);
 
-                System.out.println("jwtUtils.validateJwtToken(token) NOT WORKING! BAD REQUESTTT JAWN ------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+                log.info("JwtAuthenticationFilter | ERROR : " + e.getMessage());
                 return response.setComplete();
             }
 
-            /* For some reason here we are attaching a key/value of username:string
-            * to the header --> See if you can notice this in the get request of where ever this
-            * request is being mapped to ! */
             Claims claims = jwtUtils.getClaims(token);
             exchange.getRequest().mutate().header("username", String.valueOf(claims.get("username"))).build();
         }
