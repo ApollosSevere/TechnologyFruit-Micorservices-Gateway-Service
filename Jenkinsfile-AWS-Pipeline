@@ -16,6 +16,7 @@ pipeline{
     environment{
         ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
         SECRET_KEY = credentials('AWS_SECRET_KEY_ID')
+        GITHUB_CREDENTIALS = credentials('github')
     }
 
     stages{
@@ -30,7 +31,7 @@ pipeline{
                     gitCheckout(
                         branch: "main",
                         url: "https://github.com/ApollosSevere/ApolloStore-Micorservice-Gateway-Service",
-                        githubCredentials: GithubCredentialsId
+                        githubCredentials: env.GITHUB_CREDENTIALS
                     )
                 }
             }
