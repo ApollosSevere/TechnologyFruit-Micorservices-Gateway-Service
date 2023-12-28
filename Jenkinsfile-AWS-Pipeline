@@ -21,16 +21,18 @@ pipeline{
     stages{
 
         stage('Git Checkout'){
-                    when { expression {  params.action == 'create' } }
+            when { expression {  params.action == 'create' } }
+
             steps{
+                script{
+                    def GithubCredentialsId = 'github'
 
-                def GithubCredentialsId = 'github'
-
-                gitCheckout(
-                    branch: "main",
-                    url: "https://github.com/ApollosSevere/ApolloStore-Micorservice-Gateway-Service",
-                    githubCredentials: GithubCredentialsId
-                )
+                    gitCheckout(
+                        branch: "main",
+                        url: "https://github.com/ApollosSevere/ApolloStore-Micorservice-Gateway-Service",
+                        githubCredentials: GithubCredentialsId
+                    )
+                }
             }
         }
          stage('Unit Test maven'){
