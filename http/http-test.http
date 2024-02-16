@@ -12,6 +12,16 @@ Content-Type: application/json
 
 > {% client.global.set("auth-token", response.body.access_token);  %}
 
+# Add a review to a course
+POST http://localhost:9090/api/v1/courses/courseId/reviews
+Content-Type: application/json
+
+{
+  "userId": "user123",
+  "rating": 5,
+  "comment": "Great course!"
+}
+
 ### GET PRODUCT
 GET http://127.0.0.1:55176/api/v1/product/2
 Authorization: Bearer {{auth-token}}
